@@ -1,0 +1,3 @@
+rootProject.name = 'SparkCustomDataSource'
+include('spark3')
+include('spark2')
