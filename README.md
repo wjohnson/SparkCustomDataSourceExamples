@@ -15,10 +15,20 @@ This is the original way of defining a data source. It is still available in Spa
 
 
 ```scala
+import org.apache.spark.sql.SaveMode
+
 val df = spark.read.format("com.dataguidebook.spark.datasource.v1").load("")
 
 df.printSchema()
 df.count()
+
+df.write.mode(SaveMode.Append).format("com.dataguidebook.spark.datasource.v1").save("newpath")
+
+// InsertInto command Only works when you have a table defined USING your
+// custom data source.
+
+//spark.sql("CREATE TABLE myTable(column01 int, column02 int, column03 int ) USING com.dataguidebook.spark.datasource.v1 LOCATION custom/insertinto")
+df.write.mode(SaveMode.Append).format("com.dataguidebook.spark.datasource.v1").insertInto("myTable")
 ```
 
 ### Working with Data Sources V1
@@ -40,8 +50,15 @@ df.count()
 * **PrunedFilteredScan**: A BaseRelation that can eliminate unneeded columns and filter using selected predicates before producing an RDD containing all matching tuples as Row objects.
 
 **Writing Data**
-* **CreatetableRelationProvider**: Creates a relation based on a dataframe.
-* **InsertableRelation**: A BaseRelation that can be used to insert data into it through the insert method.
+* **CreatetableRelationProvider**: Used on the `DefaultSource` class to define a data writing behavior
+  * Requires you to implement `createRelation` with an additional `SaveMode` parameter.
+  * You define all the business logic to overwrite, append, etc. a dataframe to your custom data source
+* **InsertableRelation**:  Used on the custom data source's class (e.g. `CustomDataRelation`) that inherits from BaseRelation to insert into a **hive metastore backed datasource**.
+  * Requires you to implement `insert` which takes in a dataframe and you apply the business logic to store it inside your Hive metastore (e.g. write it to your proprietary format) or send the dataframe to a different datastore.
+  * This only works if you have defined a custom table inside your hive metastore with the `USING` keyword specifying your custom data source.  
+  ```scala
+  spark.sql("CREATE TABLE myTable(column01 int, column02 int, column03 int ) USING com.dataguidebook.spark.datasource.v1 LOCATION custom/insertinto")
+  ```
 
 ## Spark 2.4 Data Sources V2
 
@@ -100,3 +117,4 @@ These blogs, videos, and repos have been extremely helpful in improving my under
   * [Github repo with complex example of V1](https://github.com/jgperrin/net.jgp.books.spark.ch09/tree/master)
   * [(2017 Spark Summit) ](https://www.youtube.com/watch?v=M6NdFsKJ7os)
 * [(2016 Spark Summit) Data Sources V1](https://www.youtube.com/watch?v=O9kpduk5D48)
+* [InsertableRelation](https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-InsertableRelation.html#spark-sql-LogicalPlan-InsertIntoDataSourceCommand.adoc) Spark Internals reference
