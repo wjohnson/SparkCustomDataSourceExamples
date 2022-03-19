@@ -52,7 +52,8 @@ df.write.mode(SaveMode.Append).format("com.dataguidebook.spark.datasource.v1").i
 **Writing Data**
 * **CreatetableRelationProvider**: Used on the `DefaultSource` class to define a data writing behavior
   * Requires you to implement `createRelation` with an additional `SaveMode` parameter.
-  * You define all the business logic to overwrite, append, etc. a dataframe to your custom data source
+  * You define all the business logic to overwrite, append, etc. a dataframe to your custom data source.
+  * Use `df.foreachPartition` to execute your business logic on each partition when writing.
 * **InsertableRelation**:  Used on the custom data source's class (e.g. `CustomDataRelation`) that inherits from BaseRelation to insert into a **hive metastore backed datasource**.
   * Requires you to implement `insert` which takes in a dataframe and you apply the business logic to store it inside your Hive metastore (e.g. write it to your proprietary format) or send the dataframe to a different datastore.
   * This only works if you have defined a custom table inside your hive metastore with the `USING` keyword specifying your custom data source.  
@@ -118,3 +119,12 @@ These blogs, videos, and repos have been extremely helpful in improving my under
   * [(2017 Spark Summit) ](https://www.youtube.com/watch?v=M6NdFsKJ7os)
 * [(2016 Spark Summit) Data Sources V1](https://www.youtube.com/watch?v=O9kpduk5D48)
 * [InsertableRelation](https://jaceklaskowski.gitbooks.io/mastering-spark-sql/content/spark-sql-InsertableRelation.html#spark-sql-LogicalPlan-InsertIntoDataSourceCommand.adoc) Spark Internals reference
+
+## Example Data Sources
+
+* Data Source V1
+  * [Cognite Data Fusion Spark](https://github.com/cognitedata/cdp-spark-datasource)
+  * [Snowflake Spark](https://github.com/snowflakedb/spark-snowflake)
+  * [Cosmos DB Spark Connector (Spark2)](https://github.com/Azure/azure-cosmosdb-spark)
+* Data Source V2 (Spark 3)
+  * [Cosmos DB OLTP Spark Connector](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/sql-api-sdk-java-spark-v3)
