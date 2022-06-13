@@ -99,6 +99,13 @@ These blogs, videos, and repos have been extremely helpful in improving my under
 
 ### Spark 3 DataSources V2 References
 * [blog.madhukaraphatak.com Data Sources V2 (Spark 3.0)](http://blog.madhukaraphatak.com/categories/datasource-v2-spark-three/)
+* [DatasourceV2Relation Spark Catalyst Doc](https://javadoc.io/doc/com.intel.spark/spark-catalyst_2.12/latest/org/apache/spark/sql/execution/datasources/v2/DataSourceV2Relation.html)
+* [CatalogPlugin](https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/connector/catalog/CatalogPlugin.html)
+* [Table](https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/connector/catalog/Table.html)
+* [TableCatalog](https://spark.apache.org/docs/latest/api/java//org/apache/spark/sql/connector/catalog/TableCatalog.html)
+* DataSourceV2 Examples:
+  * [DeltaTableV2](https://github.com/delta-io/delta/blob/b36f6a7a57caa47dce72d9eb7fac8b7a4d25b15e/core/src/main/scala/org/apache/spark/sql/delta/catalog/DeltaTableV2.scala)
+  * [Iceberg BaseSnapshotTableSparkAction](https://github.com/apache/iceberg/blob/7c2ea0128133f630041ecb77de1fae754073e904/spark/v3.2/spark/src/main/java/org/apache/iceberg/spark/actions/BaseSnapshotTableSparkAction.java)
 
 ### Spark 2 DataSources V2 References
 * [Spark 2.4.7 JavaDoc for Data Sources V2 API](https://spark.apache.org/docs/2.4.7/api/java/org/apache/spark/sql/sources/v2/package-summary.html)
